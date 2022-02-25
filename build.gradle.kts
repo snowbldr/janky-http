@@ -13,3 +13,11 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("jankyHttp") {
+            from(components["kotlin"])
+        }
+    }
+}
