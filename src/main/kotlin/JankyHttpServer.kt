@@ -7,7 +7,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.ServerSocket
 import java.net.Socket
-import java.util.*
+import java.util.Arrays
 
 /**
  * A really janky http server that barely implements enough of the protocol to function

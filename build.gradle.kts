@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.6.10"
+    id("com.diffplug.spotless") version "6.2.2"
     `maven-publish`
 }
 
@@ -19,5 +20,11 @@ publishing {
         create<MavenPublication>("jankyHttp") {
             from(components["kotlin"])
         }
+    }
+}
+
+spotless {
+    kotlin {
+        ktlint()
     }
 }
