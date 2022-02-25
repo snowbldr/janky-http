@@ -36,10 +36,11 @@ class JankyHttpServer(port: Int = 22420, private val requestHandler: (JankyHttpR
             val headers = mutableMapOf<String, String>()
             while (line != "" && !socket.isClosed) {
                 headers.putAll(
-                    reader.readLine().also { line = it }
-                        .split(": ")
-                        .zipWithNext()
-                        .map { it.copy(first = it.first.lowercase()) }
+                    reader.readLine()?.also { line = it }
+                        ?.split(": ")
+                        ?.zipWithNext()
+                        ?.map { it.copy(first = it.first.lowercase()) }
+                        ?: listOf()
                 )
             }
             if (socket.isClosed) return
