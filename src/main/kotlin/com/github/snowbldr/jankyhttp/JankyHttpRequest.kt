@@ -1,3 +1,5 @@
+package com.github.snowbldr.jankyhttp
+
 import java.io.BufferedOutputStream
 
 /**

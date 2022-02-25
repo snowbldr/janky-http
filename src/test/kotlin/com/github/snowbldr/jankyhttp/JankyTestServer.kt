@@ -1,3 +1,5 @@
+package com.github.snowbldr.jankyhttp
+
 fun main() {
     JankyHttpServer { req ->
         when (req.path) {
@@ -5,5 +7,4 @@ fun main() {
             else -> req.reply(status = 404, statusMessage = "NOT FOUND")
         }
     }
-        .listen()
 }

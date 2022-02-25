@@ -1,3 +1,5 @@
+package com.github.snowbldr.jankyhttp
+
 /**
  * A response body to be sent back on an open connection
  */

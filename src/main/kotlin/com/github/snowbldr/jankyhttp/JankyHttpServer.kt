@@ -1,3 +1,5 @@
+package com.github.snowbldr.jankyhttp
+
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -12,11 +14,10 @@ import java.util.Arrays
 /**
  * A really janky http server that barely implements enough of the protocol to function
  */
-class JankyHttpServer(private val requestHandler: (JankyHttpRequest) -> Unit) {
-    private lateinit var server: ServerSocket
+class JankyHttpServer(port: Int = 22420, private val requestHandler: (JankyHttpRequest) -> Unit) {
+    private var server: ServerSocket = ServerSocket(port)
 
-    fun listen(port: Int = 22420) {
-        server = ServerSocket(port)
+    init {
         println("Server started on port 22420")
         runBlocking {
             while (true) {
@@ -30,8 +31,8 @@ class JankyHttpServer(private val requestHandler: (JankyHttpRequest) -> Unit) {
     private fun handleConnection(socket: Socket) {
         val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
         while (!socket.isClosed) {
-            var line: String = reader.readLine()
-            val reqInfo = line.split(" ")
+            var line: String? = reader.readLine()
+            val reqInfo = line?.split(" ")
             val headers = mutableMapOf<String, String>()
             while (line != "" && !socket.isClosed) {
                 headers.putAll(
@@ -48,8 +49,8 @@ class JankyHttpServer(private val requestHandler: (JankyHttpRequest) -> Unit) {
                 Body.empty()
             }
             val req = JankyHttpRequest(
-                reqInfo[0],
-                reqInfo[1],
+                reqInfo?.get(0) ?: "GET",
+                reqInfo?.get(1) ?: "/",
                 headers,
                 body,
                 BufferedOutputStream(socket.getOutputStream())
@@ -65,7 +66,7 @@ class JankyHttpServer(private val requestHandler: (JankyHttpRequest) -> Unit) {
 }
 
 /**
- * Polyfill of java11 InputStream.readNBytes to allow building by java8 because that's what jitpack uses
+ * Polyfill of java11 InputStream.com.github.snowbldr.jankyhttp.readNBytes to allow building by java8 because that's what jitpack uses
  */
 const val DEFAULT_BUFFER_SIZE = 8192
 const val MAX_BUFFER_SIZE = Int.MAX_VALUE - 8
